@@ -1,60 +1,59 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-app-bar app color="primary" dark>
+      <div class="d-flex align-center"></div>
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
         text
+        @click="dialogLoginForm.showDialog = !dialogLoginForm.showDialog"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <span class="mr-2">Login</span>
       </v-btn>
+
+      <v-dialog v-model="dialogLoginForm.showDialog" max-width="40vw">
+        <v-card elevation="2" shaped>
+          <v-card-title>
+            Login
+          </v-card-title>
+          <v-card-text>
+            <v-text-field v-model="dialogLoginForm.email" label="Username">
+            </v-text-field>
+            <v-text-field
+              v-model="dialogLoginForm.password"
+              label="Password"
+              :type="dialogLoginForm.show ? 'text' : 'password'"
+              @click:append="dialogLoginForm.show = !dialogLoginForm.show"
+            >
+            </v-text-field>
+          </v-card-text>
+          <v-container grid-list-sm>
+            <v-btn type="submit">
+              Login
+            </v-btn>
+          </v-container>
+        </v-card>
+      </v-dialog>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
-  },
+  name: "App",
 
   data: () => ({
-    //
+    dialogLoginForm: {
+      showDialog: false,
+      email: "",
+      password: "",
+      menu: false,
+      show: false,
+    },
   }),
 };
 </script>
