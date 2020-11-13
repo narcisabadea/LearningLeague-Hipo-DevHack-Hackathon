@@ -7,6 +7,7 @@ import Classroom from '../components/Classroom'
 import Courses from '../components/Courses'
 import Tests from '../components/Tests'
 import Profile from '../components/Profile'
+import CoursePage from '../components/CoursePage'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
         path: '/classroom',
         name: 'Classroom',
         component: Classroom
+      },
+      {
+        path: '/courses/:id',
+        name: 'CoursePage',
+        component: CoursePage
       },
       {
         path: '/courses',

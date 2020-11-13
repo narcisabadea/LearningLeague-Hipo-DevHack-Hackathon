@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :style="bgImage" class="bg-image">
     <div class="box-container">
       <div class="box-item" @click="redirect('search')">
         <div class="title">Search / Upload</div>
@@ -29,10 +29,16 @@
 import router from "../plugins/router";
 export default {
   name: "HelloWorld",
-  data: () => ({}),
+  data: () => ({
+    bgImage: {
+      background:
+        "url(" +
+        require("@/assets/homepage.jpg") +
+        ") no-repeat center center fixed",
+    },
+  }),
   methods: {
     redirect(param) {
-      console.log(param);
       router.push("/" + param);
     },
   },
@@ -40,17 +46,32 @@ export default {
 </script>
 
 <style scoped>
+.bg-image {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+  background-size: cover !important;
+}
 .box-container {
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
+  align-content: center;
+  justify-content: flex-end;
+  margin-right: 10px;
+  width: 100%;
 }
 .box-item {
   border: 1px solid var(--primary);
-  flex: 0 0 25%;
+  flex: 0 0 33%;
+  max-height: 20%;
+  border-radius: 10px;
   margin: 10px;
   padding: 30px;
-  background-color: var(--background-white);
+  background-color: var(--primary-low-opacity);
   flex-flow: column;
   text-align: -webkit-center;
   cursor: pointer;
