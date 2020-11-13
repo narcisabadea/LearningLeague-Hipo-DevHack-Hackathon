@@ -26,6 +26,10 @@
               @click:append="dialogLoginForm.show = !dialogLoginForm.show"
             >
             </v-text-field>
+            <v-checkbox
+              v-model="dialogLoginForm.checkbox"
+              label="Login as teacher"
+            ></v-checkbox>
           </v-card-text>
           <v-container grid-list-sm>
             <v-btn type="submit">
@@ -53,6 +57,7 @@ export default {
       password: "",
       menu: false,
       show: false,
+      checkbox: true,
     },
   }),
 };
