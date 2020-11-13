@@ -39,11 +39,10 @@
                 <v-icon>mdi-format-list-bulleted-square</v-icon>
               </v-btn>
              </router-link>
-
            </v-col>
           </v-row>
+          <v-divider></v-divider>
         </v-list-item-content>
-        <v-divider :key="index"></v-divider>
       </template>
     </v-list>
  </div>
