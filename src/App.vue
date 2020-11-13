@@ -68,3 +68,46 @@ export default {
   }
 };
 </script>
+<style>
+:root {
+  --primary: #4697ff;
+  --primary-low-opacity: #4697ff6b;
+  --background-light: #eceef4;
+  --background-white: white;
+  --light-text: #afb5c6;
+  --dark-text: #282e3c;
+}
+@font-face {
+  font-family: "dancingscript";
+  src: url("../src/assets/font-files/dancingscript/dancingscript-variablefont_wght-webfont.woff2")
+      format("woff2"),
+    url("../src/assets/font-files/dancingscript/dancingscript-variablefont_wght-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "eliseregular";
+  src: url("../src/assets/font-files/eliseregular/elsie-regular-webfont.woff2")
+      format("woff2"),
+    url("../src/assets/font-files/eliseregular/elsie-regular-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "robotoregular";
+  src: url("../src/assets/font-files/robotoregular/roboto-regular-webfont.woff2")
+      format("woff2"),
+    url("../src/assets/font-files/robotoregular/roboto-regular-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.v-main__wrap {
+  background-color: var(--background-light);
+}
+.v-application--wrap {
+  color: var(--dark-text);
+}
+</style>
