@@ -39,7 +39,6 @@ export default {
   }),
   methods: {
     redirect(param) {
-      console.log(param);
       router.push("/" + param);
     },
   },
