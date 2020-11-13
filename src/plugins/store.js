@@ -1,4 +1,3 @@
-  
 import Vue from "vue";
 import Vuex from "vuex";
 import firebase from "./firebase";
@@ -12,7 +11,8 @@ export default new Vuex.Store({
     classroomsData: [],
     usersData: [],
     uploadsData: [],
-    quizezData: []
+    quizezData: [],
+    user: null
   },
   mutations: {
     setCoursesData(state, payload) {
@@ -33,6 +33,9 @@ export default new Vuex.Store({
       setQuizezData(state, payload) {
         state.quizezData = payload;
       },
+      setUserId(state, payload) {
+        state.user = payload;
+      }
   },
   actions: {
     getCoursesData({ commit }) {
@@ -80,6 +83,28 @@ export default new Vuex.Store({
             commit("setQuizezData", snapshot.val());
         });
     },
+    logout({ commit }) {
+      commit("setUserDetails", null);
+      localStorage.clear();
+    },
+    login({ commit }, payload) {
+      return firebase
+        .database()
+        .ref("users/" + payload.username)
+        .on("value", snapshot => {
+          console.log('snapshot login', snapshot.val())
+          if (snapshot.val().password === payload.password) {
+            localStorage.setItem("details", JSON.stringify(snapshot.val()));
+            commit("setUserDetails", snapshot.val());
+          }
+        });
+    },
+    getDataFromLocalStorage({commit}) {
+      console.log('localStorage.getItem("details")', localStorage.getItem("details"))
+      localStorage.getItem("details") !== null
+      ? commit("setUserDetails", localStorage.getItem("details"))
+      : commit("setUserDetails", null);
+    }
 },
   getters: {
     userDetails: (state) => state.userDetails,
@@ -87,6 +112,7 @@ export default new Vuex.Store({
     classroomsData: (state) => state.classroomsData,
     usersData: (state) => state.usersData,
     uploadsData: (state) => state.uploadsData,
-    quizezData: (state) => state.quizezData
+    quizezData: (state) => state.quizezData,
+    user: (state) => state.user
 }
 });
