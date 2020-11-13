@@ -138,4 +138,7 @@ export default {
 .v-application--wrap {
   color: var(--dark-text);
 }
+.title-font {
+  font-family: "dancingscript" !important;
+}
 </style>
