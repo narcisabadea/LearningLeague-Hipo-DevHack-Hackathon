@@ -1,7 +1,6 @@
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/auth'
 import 'firebase/storage'
-import 'firebase/firestore'
 
 var config = {
     apiKey: "AIzaSyCbdkoKhX5rHX9FXSww5v-wcBqzRIBBfmg",
@@ -10,10 +9,8 @@ var config = {
     projectId: "devhacks2020-1c585",
     storageBucket: "devhacks2020-1c585.appspot.com",
     messagingSenderId: "399419580036",
-    appId: "1:399419580036:web:23cc695e48159b700facd1",
-    measurementId: "G-PRKQTSPJFM"
+    appId: "1:399419580036:web:3e0173cfce2d35350facd1",
+    measurementId: "G-SXZNB4K25J"
 }
 
-const firebaseApp = firebase.initializeApp(config)
-
-export default firebaseApp
+export default firebase.initializeApp(config)
