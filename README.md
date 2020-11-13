@@ -5,7 +5,7 @@ Education application created using Vue.js, Vuetify, Vuex, Firestore.
 ## Development
 
 This project was created using [Vue.js CLI](https://vuejs.org/) version 2.6.11 with [Vuetify](https://vuetifyjs.com/en/).
-Data is saved through [Firestore](https://firebase.google.com/docs/firestore)
+Data is saved through [Firestore](https://firebase.google.com/docs/firestore).
 
 To run the project on your machine use npm run serve for a dev server. Navigate to http://localhost:8080/.
 
