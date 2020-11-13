@@ -5,11 +5,13 @@
       <v-spacer></v-spacer>
 
       <v-btn
+      v-if="!userDetails"
         text
         @click="dialogLoginForm.showDialog = !dialogLoginForm.showDialog"
       >
         <span class="mr-2">Login</span>
       </v-btn>
+      <v-btn text @click="logout" v-if="userDetails">Logout</v-btn>
 
       <v-dialog v-model="dialogLoginForm.showDialog" max-width="40vw">
         <v-card elevation="2" shaped>
@@ -32,7 +34,7 @@
             ></v-checkbox>
           </v-card-text>
           <v-container grid-list-sm>
-            <v-btn type="submit">
+            <v-btn type="submit" @click="login">
               Login
             </v-btn>
           </v-container>
@@ -59,12 +61,30 @@ export default {
       checkbox: true,
     },
   }),
+  computed: {
+    userDetails() {
+      return this.$store.getters.userDetails;
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("login", {
+        username: this.dialogLoginForm.email,
+        password: this.dialogLoginForm.password,
+      });
+      this.dialogLoginForm.showDialog = false;
+    },
+    logout() {
+      this.$store.dispatch("logout");
+    }
+  },
   created() {
     this.$store.dispatch("getCoursesData");
     this.$store.dispatch("getClassroomsData");
     this.$store.dispatch("getUsersData");
     this.$store.dispatch("getUploadsData");
     this.$store.dispatch("getQuizezData");
+    this.$store.dispatch("getDataFromLocalStorage");
   }
 };
 </script>
