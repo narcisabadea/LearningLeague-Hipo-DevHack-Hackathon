@@ -43,8 +43,14 @@ export default new Vuex.Store({
         .database()
         .ref("courses")
         .on("value", snapshot => {
-            console.log(snapshot.val());
-            commit("setCoursesData", snapshot.val());
+          const keys = Object.keys(snapshot.val());
+          let data = [];
+          keys.forEach(key => {
+            let details = snapshot.val()[key];
+            details.key = key;
+            data.push(details);
+          });
+            commit("setCoursesData", data);
         });
     },
     getClassroomsData({ commit }) {
@@ -52,8 +58,14 @@ export default new Vuex.Store({
         .database()
         .ref("classrooms")
         .on("value", snapshot => {
-            console.log(snapshot.val());
-            commit("setClassroomsData", snapshot.val());
+          const keys = Object.keys(snapshot.val());
+          let data = [];
+          keys.forEach(key => {
+            let details = snapshot.val()[key];
+            details.key = key;
+            data.push(details);
+          });
+            commit("setClassroomsData", data);
         });
     },
     getUsersData({ commit }) {
@@ -61,8 +73,14 @@ export default new Vuex.Store({
         .database()
         .ref("users")
         .on("value", snapshot => {
-            console.log(snapshot.val());
-            commit("setUsersData", snapshot.val());
+          const keys = Object.keys(snapshot.val());
+          let data = [];
+          keys.forEach(key => {
+            let details = snapshot.val()[key];
+            details.key = key;
+            data.push(details);
+          });
+            commit("setUsersData", data);
         });
     },
     getUploadsData({ commit }) {
@@ -70,8 +88,14 @@ export default new Vuex.Store({
         .database()
         .ref("uploads")
         .on("value", snapshot => {
-            console.log(snapshot.val());
-            commit("setUploadsData", snapshot.val());
+            const keys = Object.keys(snapshot.val());
+            let data = [];
+            keys.forEach(key => {
+              let details = snapshot.val()[key];
+              details.key = key;
+              data.push(details);
+            });
+            commit("setUploadsData", data);
         });
     },
     getQuizezData({ commit }) {
@@ -79,8 +103,14 @@ export default new Vuex.Store({
         .database()
         .ref("quizez")
         .on("value", snapshot => {
-            console.log(snapshot.val());
-            commit("setQuizezData", snapshot.val());
+          const keys = Object.keys(snapshot.val());
+          let data = [];
+          keys.forEach(key => {
+            let details = snapshot.val()[key];
+            details.key = key;
+            data.push(details);
+          });
+            commit("setQuizezData", data);
         });
     },
     logout({ commit }) {
