@@ -6,6 +6,7 @@
       <div class='box-item' @click="redirect('chat')">Chat</div>
        <div class='box-item' @click="redirect('classroom')">Classroom</div>
         <div class='box-item' @click="redirect('courses')">Courses</div>
+        <div class='box-item' @click="redirect('tests')">Tests</div>
    </div>
   </v-container>
 </template>
