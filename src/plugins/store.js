@@ -102,7 +102,7 @@ export default new Vuex.Store({
     getDataFromLocalStorage({commit}) {
       console.log('localStorage.getItem("details")', localStorage.getItem("details"))
       localStorage.getItem("details") !== null
-      ? commit("setUserDetails", localStorage.getItem("details"))
+      ? commit("setUserDetails", JSON.parse(localStorage.getItem("details")))
       : commit("setUserDetails", null);
     }
 },

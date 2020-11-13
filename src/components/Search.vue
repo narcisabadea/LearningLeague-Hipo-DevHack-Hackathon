@@ -71,7 +71,7 @@
               class="ma-2 white--text"
               fab
               x-small
-              @click="downloadDoc()"
+              @click="downloadDoc(item.downloadLink)"
             >
               <v-icon dark>
                 mdi-cloud-upload
@@ -122,18 +122,15 @@ export default {
     },
     uploadDocument() {
       const selectedFile = this.fileDetails;
-      // const filesName = firebase.auth().currentUser.uid
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         this.ImageUrl = fileReader.result;
       });
       fileReader.readAsDataURL(selectedFile);
       this.ImageUrl = selectedFile;
-      console.log(this.ImageUrl);
       const storageRef = firebase
         .storage()
         .ref("Documents/" + this.fileDetails.name);
-      console.log(storageRef);
       const uploadTask = storageRef.put(selectedFile);
       uploadTask.on(
         "state_changed",
@@ -147,16 +144,16 @@ export default {
         },
         () => {
           console.log("succes");
-          var downloadURL = uploadTask.snapshot.ref.getDownloadURL();
-          let fileDetails = this.fileDescription.then((downloadURL) => {
+          var downloadURL = uploadTask.snapshot.ref.getDownloadURL()
+          .then((downloadURL) => {
             firebase
               .database()
               .ref("uploads/")
               .push({
                 downloadLink: downloadURL,
-                description: fileDetails,
-                name: fileDetails.name,
-                lastModified: new Date(fileDetails.lastModified),
+                description: this.fileDescription,
+                name: this.fileDetails.name,
+                lastModified: new Date(this.fileDetails.lastModified)
               });
             console.log("File available at", downloadURL);
           });
@@ -164,7 +161,8 @@ export default {
         }
       );
     },
-    downloadDoc() {
+    downloadDoc(url) {
+      window.open(url,'_blank');
       console.log("download");
     },
   },
