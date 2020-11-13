@@ -2,12 +2,16 @@
   <v-app>
     <v-app-bar app>
       <v-btn to="/" text v-if="$route.path !== '/'">
-        <span class="mr-2">&#x3c; Home</span>
+        <span class="mr-2"
+          ><v-icon dark>
+            mdi-home
+          </v-icon>
+        </span>
       </v-btn>
       <v-spacer></v-spacer>
 
       <v-btn
-      v-if="!userDetails"
+        v-if="!userDetails"
         text
         @click="dialogLoginForm.showDialog = !dialogLoginForm.showDialog"
       >
@@ -66,7 +70,7 @@ export default {
   computed: {
     userDetails() {
       return this.$store.getters.userDetails;
-    }
+    },
   },
   methods: {
     login() {
@@ -78,7 +82,7 @@ export default {
     },
     logout() {
       this.$store.dispatch("logout");
-    }
+    },
   },
   created() {
     this.$store.dispatch("getCoursesData");
@@ -87,7 +91,7 @@ export default {
     this.$store.dispatch("getUploadsData");
     this.$store.dispatch("getQuizezData");
     this.$store.dispatch("getDataFromLocalStorage");
-  }
+  },
 };
 </script>
 <style>

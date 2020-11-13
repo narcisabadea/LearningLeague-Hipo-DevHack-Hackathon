@@ -1,13 +1,19 @@
 <template>
   <v-container>
-    <h1>Search or upload documents</h1>
-
+    <div class="title">Search or upload documents</div>
     <div class="bar-container">
       <v-text-field
         hide-details
         prepend-icon="mdi-magnify"
         single-line
+        v-model="inputData"
       ></v-text-field>
+
+      <v-btn class="upload-btn" fab x-small @click="upload = !upload">
+        <v-icon dark>
+          mdi-cloud-upload
+        </v-icon>
+      </v-btn>
 
       <v-btn text @click="upload = !upload">
         <span class="mr-2">Upload</span>
@@ -55,43 +61,42 @@
       <v-btn @click="uploadDocument">Save</v-btn>
     </v-row>
 
-    <div
-      v-for="(item, index) in filteredItems"
-      :key="index"
-      class="result-item"
-    >
-      <v-card v-if="!upload">
-        <v-row class="card-container">
-          <v-col md="10">
-            <v-card-title>
-              {{ item.name }}
-            </v-card-title>
-            <v-card-subtitle>
-              {{ item.description }}
-            </v-card-subtitle>
-            <v-card-text>
+    <div v-if="filteredItems.length > 0">
+      <div
+        v-for="(item, index) in filteredItems"
+        :key="index"
+        class="result-item"
+      >
+        <v-card v-if="!upload">
+          <v-row class="card-container">
+            <v-col md="10">
+              <v-card-title class='item-name'>
+                {{ item.name }}
+              </v-card-title>
+              <v-card-subtitle>
+                {{ item.description }}
+              </v-card-subtitle>
+              <v-card-text>
               <div v-if="item.userId">Uploaded by {{ usersData ? usersData[item.userId].name : '' }}</div><div v-if="item.dateUpload"> on {{ item.dateUpload }}</div>
-            </v-card-text>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col md="2">
-            <v-btn
-              color="blue-grey"
-              class="ma-2 white--text"
-              fab
-              x-small
-              @click="downloadDoc(item, index)"
-            >
-              <v-icon dark>
-                mdi-cloud-upload
-              </v-icon>
-            </v-btn>
-            <v-btn color="blue-grey" class="ma-2 white--text" fab x-small>
-              <v-icon>mdi-format-list-bulleted-square</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card>
+              </v-card-text>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col md="2">
+              <v-btn class="download-btn" fab x-small @click="downloadDoc(item, index)">
+                <v-icon dark>
+                  mdi-download
+                </v-icon>
+              </v-btn>
+              <v-btn class="upload-btn" fab x-small>
+                <v-icon>mdi-format-list-bulleted-square</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+    </div>
+    <div v-if="filteredItems.length <= 0">
+      No items found
     </div>
   </v-container>
 </template>
@@ -107,6 +112,7 @@ export default {
     fileDescription: "",
     fileDetails: "",
     typeUpload: "",
+    inputData: "",
     dropzoneOptions: {
       url: "https://httpbin.org/post",
       thumbnailWidth: 100,
@@ -122,7 +128,11 @@ export default {
       return this.$store.getters.uploadsData;
     },
     filteredItems() {
-      return this.getDocumentList;
+      return Object.values(this.getDocumentList).filter(
+        (item) =>
+          item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
+          item.description.toLowerCase().includes(this.inputData.toLowerCase())
+      );
     },
     userDetails() {
       return this.$store.getters.userDetails;
@@ -238,6 +248,25 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
+}
+.title {
+  font-family: "dancingscript" !important;
+  font-size: 2rem !important;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+.upload-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
+}
+.download-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
+  margin-right: 10px;
+}
+.item-name {
+    color: var(--dark-text) !important;
 }
 .dropzone-custom-title {
   color: var(--primary);
