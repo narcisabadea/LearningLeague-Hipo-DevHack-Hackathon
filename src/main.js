@@ -4,7 +4,7 @@ import vuetify from './plugins/vuetify';
 import router from './plugins/router';
 import Vuex from 'vuex';
 import store from './plugins/store';
-import * as firebase from './plugins/firebase';
+import * as firebase from './plugins/firebase'
 
 Vue.use(Vuex)
 
