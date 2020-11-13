@@ -1,7 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center"></div>
+    <v-app-bar app>
+      <v-btn to="/" text v-if="$route.path !== '/'">
+        <span class="mr-2">&#x3c; Home</span>
+      </v-btn>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -90,12 +92,12 @@ export default {
 </script>
 <style>
 :root {
-  --primary: #4697ff;
-  --primary-low-opacity: #4697ff6b;
-  --background-light: #eceef4;
+  --primary: #a25b03;
+  --primary-low-opacity: #a25b036e;
+  --background-light: #f6f4e7;
   --background-white: white;
-  --light-text: #afb5c6;
-  --dark-text: #282e3c;
+  --light-text: #c4c2b4;
+  --dark-text: #0d243e;
 }
 @font-face {
   font-family: "dancingscript";
@@ -126,6 +128,12 @@ export default {
 }
 .v-main__wrap {
   background-color: var(--background-light);
+}
+.v-app-bar {
+  background-color: var(--primary) !important;
+}
+.v-app-bar .v-btn__content {
+  color: var(--light-text) !important;
 }
 .v-application--wrap {
   color: var(--dark-text);
