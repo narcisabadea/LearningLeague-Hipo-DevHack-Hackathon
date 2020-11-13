@@ -36,12 +36,21 @@
       <v-col cols="9">
         <v-text-field
           counter
-          maxlength="60"
+          maxlength="250"
           v-model="fileDescription"
         ></v-text-field>
       </v-col>
     </v-row>
-
+    <v-row v-if="upload">
+      <v-radio-group v-model="typeUpload">
+        <v-radio label="Public" value="public"></v-radio>
+        <v-radio
+          label="For other teachers and students"
+          value="student"
+        ></v-radio>
+        <v-radio label="Just for other teachers" value="professor"></v-radio>
+      </v-radio-group>
+    </v-row>
     <v-row v-if="upload" class="btn-container">
       <v-btn @click="uploadDocument">Save</v-btn>
     </v-row>
@@ -61,7 +70,7 @@
               {{ item.description }}
             </v-card-subtitle>
             <v-card-text>
-              Uploaded by {{ item.userId }} on {{ item.dateUpload }}
+              <div v-if="item.userId">Uploaded by {{ usersData ? usersData[item.userId].name : '' }}</div><div v-if="item.dateUpload"> on {{ item.dateUpload }}</div>
             </v-card-text>
           </v-col>
           <v-spacer></v-spacer>
@@ -71,7 +80,7 @@
               class="ma-2 white--text"
               fab
               x-small
-              @click="downloadDoc(item.downloadLink)"
+              @click="downloadDoc(item, index)"
             >
               <v-icon dark>
                 mdi-cloud-upload
@@ -97,6 +106,7 @@ export default {
     upload: false,
     fileDescription: "",
     fileDetails: "",
+    typeUpload: "",
     dropzoneOptions: {
       url: "https://httpbin.org/post",
       thumbnailWidth: 100,
@@ -114,6 +124,12 @@ export default {
     filteredItems() {
       return this.getDocumentList;
     },
+    userDetails() {
+      return this.$store.getters.userDetails;
+    },
+    usersData() {
+      return this.$store.getters.usersData;
+    }
   },
   methods: {
     uploadSuccess: function(file) {
@@ -144,26 +160,54 @@ export default {
         },
         () => {
           console.log("succes");
-          var downloadURL = uploadTask.snapshot.ref.getDownloadURL()
-          .then((downloadURL) => {
-            firebase
-              .database()
-              .ref("uploads/")
-              .push({
-                downloadLink: downloadURL,
-                description: this.fileDescription,
-                name: this.fileDetails.name,
-                lastModified: new Date(this.fileDetails.lastModified)
-              });
-            console.log("File available at", downloadURL);
-          });
+          var downloadURL = uploadTask.snapshot.ref
+            .getDownloadURL()
+            .then((downloadURL) => {
+              firebase
+                .database()
+                .ref("uploads/")
+                .push({
+                  downloadLink: downloadURL,
+                  description: this.fileDescription,
+                  name: this.fileDetails.name,
+                  dateUpload: new Date(),
+                  userId: this.userDetails.name,
+                  downloads: 0,
+                  type: this.typeUpload,
+                  downloadsProfessors: 0,
+                  downloadsStudents: 0,
+                });
+              console.log("File available at", downloadURL);
+            });
           this.Image = downloadURL;
         }
       );
     },
-    downloadDoc(url) {
-      window.open(url,'_blank');
-      console.log("download");
+    downloadDoc(item, index) {
+      if (this.userDetails && this.userDetails.type) {
+        if (this.userDetails.type === "professor") {
+          firebase
+            .database()
+            .ref("uploads/" + index)
+            .update({
+              downloadsProfessors: item.downloadsProfessors
+                ? item.downloadsProfessors + 1
+                : 1,
+            });
+        }
+        if (this.userDetails.type === "student") {
+          firebase
+            .database()
+            .ref("uploads/" + index)
+            .update({
+              downloadsStudents: item.downloadsStudents
+                ? item.downloadsStudents + 1
+                : 1,
+            });
+        }
+      }
+
+      window.open(item.downloadLink, "_blank");
     },
   },
 };
@@ -194,5 +238,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.dropzone-custom-title {
+  color: var(--primary);
 }
 </style>
