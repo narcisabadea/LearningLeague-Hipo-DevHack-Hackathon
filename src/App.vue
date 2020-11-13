@@ -49,7 +49,6 @@
 <script>
 export default {
   name: "App",
-
   data: () => ({
     dialogLoginForm: {
       showDialog: false,
@@ -60,5 +59,12 @@ export default {
       checkbox: true,
     },
   }),
+  created() {
+    this.$store.dispatch("getCoursesData");
+    this.$store.dispatch("getClassroomsData");
+    this.$store.dispatch("getUsersData");
+    this.$store.dispatch("getUploadsData");
+    this.$store.dispatch("getQuizezData");
+  }
 };
 </script>
