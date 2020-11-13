@@ -1,19 +1,19 @@
 <template>
   <v-container>
     <div class="title">Courses</div>
-    
+
     <div class="bar-container">
       <v-text-field
         hide-details
         prepend-icon="mdi-magnify"
         single-line
-        v-model='inputData'
+        v-model="inputData"
       ></v-text-field>
 
       <v-btn
         x-small
         fab
-        class='add-btn'
+        class="add-btn"
         @click="dialogAddCourse.showDialog = !dialogAddCourse.showDialog"
       >
         <v-icon dark>
@@ -22,31 +22,34 @@
       </v-btn>
     </div>
 
- <div v-if="filteredItems.length > 0">
-    <v-list three-line>
-      <template v-for="(item, index) in filteredItems">
-        <v-list-item-content :key="index" class='item-name' >
-          <v-row class="card-container">
-          <v-col md="11">
-          <v-list-item-title v-html="item.name"></v-list-item-title>
-          <v-list-item-subtitle
-            v-html="item.description"
-          ></v-list-item-subtitle>
-          </v-col>
-           <v-col md="1">
-             <router-link :to="{ name: 'CoursePage', params: { id: item.name }}" style="cursor:pointer">
-            <v-btn class="upload-btn" fab x-small>
-                <v-icon>mdi-format-list-bulleted-square</v-icon>
-              </v-btn>
-             </router-link>
-           </v-col>
-          </v-row>
-          <v-divider></v-divider>
-        </v-list-item-content>
-      </template>
-    </v-list>
- </div>
-  <div v-if="filteredItems.length <= 0">
+    <div v-if="filteredItems.length > 0">
+      <v-list three-line>
+        <template v-for="(item, index) in filteredItems">
+          <v-list-item-content :key="index" class="item-name">
+            <v-row class="card-container">
+              <v-col md="11">
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle
+                  v-html="item.description"
+                ></v-list-item-subtitle>
+              </v-col>
+              <v-col md="1">
+                <router-link
+                  :to="{ name: 'CoursePage', params: { id: item.name } }"
+                  style="cursor:pointer"
+                >
+                  <v-btn class="upload-btn" fab x-small>
+                    <v-icon>mdi-format-list-bulleted-square</v-icon>
+                  </v-btn>
+                </router-link>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+          </v-list-item-content>
+        </template>
+      </v-list>
+    </div>
+    <div v-if="filteredItems.length <= 0">
       No items found
     </div>
 
@@ -63,9 +66,23 @@
             label="Description"
           >
           </v-text-field>
+          <v-row>
+            <v-radio-group v-model="typeUpload">
+              <v-radio label="Public" value="public"></v-radio>
+              <v-radio
+                label="For other teachers and students"
+                value="student"
+              ></v-radio>
+              <v-radio
+                label="Just for other teachers"
+                value="professor"
+              ></v-radio>
+            </v-radio-group>
+          </v-row>
         </v-card-text>
+
         <v-container grid-list-sm>
-          <v-btn type="submit" @click="addCourse" class='save-btn'>
+          <v-btn type="submit" @click="addCourse" class="save-btn">
             Save
           </v-btn>
         </v-container>
@@ -84,14 +101,20 @@ export default {
       name: "",
       description: "",
     },
-      inputData: ''
+    inputData: "",
+      typeUpload: "",
+
   }),
   computed: {
     getCoursesList() {
       return this.$store.getters.coursesData;
     },
     filteredItems() {
-      return Object.values(this.getCoursesList).filter(item => item.name.toLowerCase().includes(this.inputData.toLowerCase()) || item.description.toLowerCase().includes(this.inputData.toLowerCase()));
+      return Object.values(this.getCoursesList).filter(
+        (item) =>
+          item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
+          item.description.toLowerCase().includes(this.inputData.toLowerCase())
+      );
     },
     getUserDetails() {
       return this.$store.getters.userDetails;
@@ -106,12 +129,12 @@ export default {
           name: this.dialogAddCourse.name,
           description: this.dialogAddCourse.description,
           userId: this.getUserDetails.name,
+          type: this.typeUpload,
         })
         .then(() => {
           this.dialogAddCourse.showDialog = false;
         });
     },
-   
   },
 };
 </script>
@@ -156,15 +179,15 @@ export default {
 }
 .save-btn {
   background-color: var(--primary) !important;
-  color: var(--light-text)
+  color: var(--light-text);
 }
 .add-btn {
   background-color: var(--primary) !important;
-  color: var(--light-text)
+  color: var(--light-text);
 }
 .item-name {
-    color: var(--dark-text) !important;
-    padding: 20px;
+  color: var(--dark-text) !important;
+  padding: 20px;
 }
 .upload-btn {
   background-color: var(--primary) !important;
