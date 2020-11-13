@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <div class="title">Search or upload documents</div>
-
     <div class="bar-container">
       <v-text-field
         hide-details
@@ -14,6 +13,10 @@
         <v-icon dark>
           mdi-cloud-upload
         </v-icon>
+      ></v-text-field>
+
+      <v-btn text @click="upload = !upload">
+        <span class="mr-2">Upload</span>
       </v-btn>
     </div>
 
