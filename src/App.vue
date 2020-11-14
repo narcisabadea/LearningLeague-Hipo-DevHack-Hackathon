@@ -148,13 +148,13 @@ a {
 .title-font {
   font-family: "dancingscript" !important;
 }
-.v-list-item__title, .v-list-item__subtitle {
-white-space: pre-wrap !important;
+.v-list-item__title,
+.v-list-item__subtitle {
+  white-space: pre-wrap !important;
 }
 .v-list-item__subtitle {
-      
-    line-height: 1.3;
-    padding-top: 5px;
-    color: var(--light-text)
+  line-height: 1.3;
+  padding-top: 5px;
+  color: var(--light-text);
 }
 </style>
