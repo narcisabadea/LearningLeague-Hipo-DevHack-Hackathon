@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '../components/HelloWorld'
 import Search from '../components/Search'
-import Chat from '../components/Chat'
 import Classroom from '../components/Classroom'
 import Courses from '../components/Courses'
 import Tests from '../components/Tests'
@@ -18,11 +17,6 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: Search
-    },
-    {
-      path: '/chat',
-      name: 'Chat',
-      component: Chat
     },
     {
         path: '/classroom',

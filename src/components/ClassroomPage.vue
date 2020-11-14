@@ -14,7 +14,7 @@ export default {
     };
   },
     created() {
-      this.classroomDetails = Object.values(this.$store.getters.classroomsData).filter(item => item.name === this.id)
+      this.classroomDetails = Object.values(this.$store.getters.classroomsData).filter(item => item.key === this.id)[0]
     }
 };
 </script>

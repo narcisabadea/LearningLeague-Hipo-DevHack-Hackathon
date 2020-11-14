@@ -3,23 +3,19 @@
     <div class="box-container">
       <div class="box-item" @click="redirect('search')">
         <div class="title">Search / Upload</div>
-        <div class="description">search or upload documents</div>
-      </div>
-      <div class="box-item" @click="redirect('chat')">
-        <div class="title">Chat</div>
-        <div class="description">chat with other people</div>
+        <div class="description">search or upload documents (private or public docs)</div>
       </div>
       <div class="box-item" @click="redirect('classroom')">
         <div class="title">Classrooms</div>
-        <div class="description">enter a classroom</div>
+        <div class="description">talk about different topics with or without a teacher</div>
       </div>
       <div class="box-item" @click="redirect('courses')">
         <div class="title">Courses</div>
-        <div class="description">view courses documentation</div>
+        <div class="description">take courses in order to develop your knowledge</div>
       </div>
       <div class="box-item" @click="redirect('tests')">
         <div class="title">Tests</div>
-        <div class="description">take tests</div>
+        <div class="description"> take tests in order to verify your knowledge about multiple topics</div>
       </div>
     </div>
   </v-container>

@@ -35,7 +35,7 @@
               </v-col>
               <v-col md="1">
                 <router-link
-                  :to="{ name: 'ClassroomPage', params: { id: item.name } }"
+                  :to="{ name: 'ClassroomPage', params: { id: item.key } }"
                   style="cursor:pointer"
                 >
                   <v-btn class="upload-btn" fab x-small>
@@ -139,5 +139,22 @@ export default {
 .bar-container {
   display: flex;
   margin-bottom: 30px;
+}
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.item-name {
+    color: var(--dark-text) !important;
+    padding: 20px;
+}
+.upload-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
+}
+.add-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text)
 }
 </style>
