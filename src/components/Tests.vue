@@ -1,6 +1,8 @@
 <template>
   <v-container>
        <div class="title">Tests</div>
+
+       
   </v-container>
 </template>
 
@@ -10,6 +12,11 @@
     data: () => ({
  
     }),
+    computed: {
+      getQuizList() {
+      return this.$store.getters.quizezData;
+    },
+    }
   }
 </script>
 
