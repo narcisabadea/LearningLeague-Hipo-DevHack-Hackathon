@@ -89,7 +89,7 @@
                 <div v-if="item.userId">
                   Uploaded by {{ getUserName(item.userId) }}
                 </div>
-                <div v-if="item.dateUpload">on {{ item.dateUpload }}</div>
+                <div v-if="item.dateUpload"> {{  new Date(item.dateUpload).toLocaleString() }}</div>
               </v-card-text>
             </v-col>
             <v-spacer></v-spacer>
@@ -252,7 +252,7 @@ export default {
                   downloadLink: downloadURL,
                   description: this.fileDescription,
                   name: this.fileDetails.name,
-                  dateUpload: new Date(),
+                  dateUpload: Date.now(),
                   userId: this.userDetails.name,
                   downloads: 0,
                   type: this.typeUpload,
