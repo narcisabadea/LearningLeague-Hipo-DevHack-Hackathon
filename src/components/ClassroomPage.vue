@@ -91,6 +91,7 @@
                         class="date"
                         v-html="item.date"
                       ></v-list-item-subtitle>
+                       <div v-if="item.dateAdded" class="date-style"> {{  new Date(item.dateAdded).toLocaleString() }}</div>
                       <v-list-item-title
                         v-html="item.comment"
                       ></v-list-item-title>
@@ -179,6 +180,7 @@
                       <div v-if="item.userId">
                         Uploaded by {{ getUserName(item.userId) }}
                       </div>
+                      <div v-if="item.dateUpload"> {{  new Date(item.dateUpload).toLocaleString() }}</div>
                     </v-card-text>
                   </v-col>
                   <v-spacer></v-spacer>
@@ -279,9 +281,11 @@ export default {
         .ref("classrooms/" + this.classroomDetails.key + "/comments")
         .push({
           comment: this.newComment,
-          dateAdded: new Date(),
+          dateAdded: Date.now(),
           userId: this.userDetails.name,
-        });
+        }).then(() => {
+          this.newComment = ''
+        })
     },
     uploadSuccess: function(file) {
       this.fileDetails = file;
@@ -326,7 +330,7 @@ export default {
                   downloadLink: downloadURL,
                   description: this.fileDescription,
                   name: this.fileDetails.name,
-                  dateUpload: new Date(),
+                  dateUpload: Date.now(),
                   userId: this.userDetails.name,
                   downloads: 0,
                   type: this.typeUpload,
@@ -660,5 +664,11 @@ export default {
 .chip-style {
   background-color: var(--primary-low-opacity) !important;
   margin: 5px;
+}
+.date-style {
+  color: var(--dark-text) !important;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 </style>
