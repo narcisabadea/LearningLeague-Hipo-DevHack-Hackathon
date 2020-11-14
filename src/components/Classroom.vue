@@ -1,15 +1,143 @@
 <template>
   <v-container>
-      <h1>Classroom</h1>
+    <div class="title">Classrooms</div>
+
+    <div class="bar-container">
+      <v-text-field
+        hide-details
+        prepend-icon="mdi-magnify"
+        single-line
+        v-model="inputData"
+      ></v-text-field>
+
+      <v-btn
+        x-small
+        fab
+        class="add-btn"
+        @click="dialogAddClassroom.showDialog = !dialogAddClassroom.showDialog"
+      >
+        <v-icon dark>
+          mdi-plus
+        </v-icon>
+      </v-btn>
+    </div>
+
+    <div v-if="filteredItems.length > 0">
+      <v-list three-line>
+        <template v-for="(item, index) in filteredItems">
+          <v-list-item-content :key="index" class="item-name">
+            <v-row class="card-container">
+              <v-col md="11">
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle
+                  v-html="item.description"
+                ></v-list-item-subtitle>
+              </v-col>
+              <v-col md="1">
+                <router-link
+                  :to="{ name: 'ClassroomPage', params: { id: item.name } }"
+                  style="cursor:pointer"
+                >
+                  <v-btn class="upload-btn" fab x-small>
+                    <v-icon>mdi-format-list-bulleted-square</v-icon>
+                  </v-btn>
+                </router-link>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+          </v-list-item-content>
+        </template>
+      </v-list>
+    </div>
+    <div v-if="filteredItems.length <= 0">
+      No items found
+    </div>
+
+        <v-dialog v-model="dialogAddClassroom.showDialog" max-width="40vw">
+      <v-card elevation="2" shaped>
+        <v-card-title class="title-dialog">
+          Add classroom
+        </v-card-title>
+        <v-card-text>
+          <v-text-field v-model="dialogAddClassroom.name" label="Classroom name">
+          </v-text-field>
+          <v-text-field
+            v-model="dialogAddClassroom.description"
+            label="Description"
+          >
+          </v-text-field>
+        </v-card-text>
+        <v-card-text>
+              <v-row>
+      <v-radio-group v-model="type">
+        <v-radio label="Public" value="public"></v-radio>
+        <v-radio
+          label="For other teachers and students"
+          value="student"
+        ></v-radio>
+        <v-radio label="Just for other teachers" value="professor"></v-radio>
+      </v-radio-group>
+    </v-row>
+        </v-card-text>
+        <v-container grid-list-sm>
+          <v-btn type="submit" @click="classroomsData" class='save-btn'>
+            Save
+          </v-btn>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
-  export default {
-    name: 'Classroom',
-    data: () => ({
- 
-    }),
-  }
+import firebase from "../plugins/firebase";
+export default {
+  name: "Classroom",
+  data: () => ({
+    inputData: "",
+    dialogAddClassroom: {
+      showDialog: false,
+      name: "",
+      description: "",
+    },
+    type: ""
+  }),
+  computed: {
+    classroomsData() {
+      return this.$store.getters.classroomsData;
+    },
+    filteredItems() {
+      return Object.values(this.classroomsData).filter(
+        (item) =>
+          item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
+          item.description.toLowerCase().includes(this.inputData.toLowerCase())
+      );
+    },
+    getUserDetails() {
+      return this.$store.getters.userDetails;
+    },
+  },
+  methods: {
+    addClassroom() {
+      firebase
+        .database()
+        .ref("classrooms/")
+        .push({
+          name: this.dialogAddClassroom.name,
+          description: this.dialogAddClassroom.description,
+          userId: this.getUserDetails.name,
+          type: this.type
+        })
+        .then(() => {
+          this.dialogAddClassroom.showDialog = false;
+        });
+    },
+  },
+};
 </script>
-
+<style scoped>
+.bar-container {
+  display: flex;
+  margin-bottom: 30px;
+}
+</style>

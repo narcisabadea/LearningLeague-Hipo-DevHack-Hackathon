@@ -10,8 +10,8 @@
         <div class="description">chat with other people</div>
       </div>
       <div class="box-item" @click="redirect('classroom')">
-        <div class="title">Classroom</div>
-        <div class="description">Enter a classroom</div>
+        <div class="title">Classrooms</div>
+        <div class="description">enter a classroom</div>
       </div>
       <div class="box-item" @click="redirect('courses')">
         <div class="title">Courses</div>

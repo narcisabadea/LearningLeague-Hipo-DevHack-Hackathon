@@ -2,14 +2,14 @@
   <v-container>
     <div class="title">Course details</div>
 
-    <v-card v-if="courseDetails.length > 0">
+    <v-card v-if="getCourseDetails.length > 0" class="card-intro">
       <v-row class="card-container">
         <v-col md="10">
           <v-card-title class="item-name">
-            {{ courseDetails[0].name }}
+            {{ getCourseDetails[0].name }}
           </v-card-title>
           <v-card-subtitle>
-            {{ courseDetails[0].description }}
+            {{ getCourseDetails[0].description }}
           </v-card-subtitle>
         </v-col>
       </v-row>
@@ -17,14 +17,14 @@
         <v-btn
           class="add-btn"
           @click="showForm = !showForm"
-          v-if="getUserDetails.name === courseDetails[0].userId"
+          v-if="getUserDetails.name === getCourseDetails[0].userId"
           >Add chapter</v-btn
         >
       </v-row>
 
-      <div v-if="showForm">
-        <v-row>
-          <v-col md="10">
+      <div v-if="showForm" >
+        <v-row class='form-style'> 
+          <v-col md="10" >
             <v-text-field v-model="chapterDetails.title" label="Chapter title">
             </v-text-field>
             <v-text-field
@@ -39,6 +39,28 @@
         </v-row>
       </div>
     </v-card>
+
+      <div v-if="getCourseDetails[0] && getCourseDetails[0].chapters" class="chapter-container">
+        <div
+          v-for="(item, index) in getCourseDetails[0].chapters"
+          :key="index"
+          class="result-item"
+        >
+          <v-card style='margin-bottom: 15px'>
+            <v-row class="card-container">
+              <v-col md="10">
+                <v-card-title class="item-name">
+                  {{ item.title }}
+                </v-card-title>
+                <v-card-subtitle>
+                  {{ item.theory }}
+                </v-card-subtitle>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card>
+        </div>
+      </div>
   </v-container>
 </template>
 
@@ -49,7 +71,6 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      courseDetails: "",
       addChapter: false,
       showForm: false,
       chapterDetails: {
@@ -62,12 +83,17 @@ export default {
     getUserDetails() {
       return this.$store.getters.userDetails;
     },
+    getCourseDetails() {
+      return Object.values(this.$store.getters.coursesData).filter(
+      (item) => item.name === this.id
+    );
+    }
   },
   methods: {
     saveChapter() {
       firebase
         .database()
-        .ref("courses/")
+        .ref("courses/" + this.getCourseDetails[0].key + "/chapters")
         .push({
           title: this.chapterDetails.title,
           theory: this.chapterDetails.theory,
@@ -76,11 +102,6 @@ export default {
           this.showForm = false;
         });
     },
-  },
-  created() {
-    this.courseDetails = Object.values(this.$store.getters.coursesData).filter(
-      (item) => item.name === this.id
-    );
   },
 };
 </script>
@@ -102,5 +123,12 @@ export default {
 .item-name {
   color: var(--dark-text) !important;
   margin-bottom: 10px;
+}
+.card-intro {
+  margin-bottom: 15px;
+}
+.form-style {
+ display: flex;
+ justify-content: center
 }
 </style>
