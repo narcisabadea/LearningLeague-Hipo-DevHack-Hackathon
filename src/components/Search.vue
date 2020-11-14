@@ -9,11 +9,24 @@
         v-model="inputData"
       ></v-text-field>
 
-      <v-btn v-if="userDetails" class="upload-btn" fab x-small @click="upload = !upload">
-        <v-icon dark>
-          mdi-cloud-upload
-        </v-icon>
-      </v-btn>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">
+            <v-btn
+              v-if="userDetails"
+              class="upload-btn"
+              fab
+              x-small
+              @click="upload = !upload"
+            >
+              <v-icon dark>
+                mdi-cloud-upload
+              </v-icon>
+            </v-btn>
+          </span>
+        </template>
+        <span>Upload document</span>
+      </v-tooltip>
     </div>
 
     <vue-dropzone
@@ -54,7 +67,7 @@
       </v-radio-group>
     </v-row>
     <v-row v-if="upload" class="btn-container">
-      <v-btn @click="uploadDocument">Save</v-btn>
+      <v-btn @click="uploadDocument" class="save-btn">Save</v-btn>
     </v-row>
 
     <div v-if="filteredItems.length > 0">
@@ -81,16 +94,23 @@
             </v-col>
             <v-spacer></v-spacer>
             <v-col>
-              <v-btn
-                class="download-btn"
-                fab
-                x-small
-                @click="downloadDoc(item, index)"
-              >
-                <v-icon dark>
-                  mdi-download
-                </v-icon>
-              </v-btn>
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">
+                    <v-btn
+                      class="download-btn"
+                      fab
+                      x-small
+                      @click="downloadDoc(item, index)"
+                    >
+                      <v-icon dark>
+                        mdi-download
+                      </v-icon>
+                    </v-btn>
+                  </span>
+                </template>
+                <span>Download document</span>
+              </v-tooltip>
             </v-col>
             <v-row class="chips-container">
               <v-chip class="chip-style">
@@ -101,6 +121,24 @@
               </v-chip>
               <v-chip class="chip-style">
                 Students downloads: {{ item.downloadsStudents || 0 }}
+              </v-chip>
+              <v-chip
+                class="chip-visibility-style"
+                v-if="item.type === 'public'"
+              >
+                Visible to everyone
+              </v-chip>
+              <v-chip
+                class="chip-visibility-style"
+                v-if="item.type === 'student'"
+              >
+                Visible to students and teachers
+              </v-chip>
+              <v-chip
+                class="chip-visibility-style"
+                v-if="item.type === 'professor'"
+              >
+                Visible to teachers
               </v-chip>
             </v-row>
           </v-row>
@@ -144,11 +182,25 @@ export default {
       return this.$store.getters.uploadsData;
     },
     filteredItems() {
-      return Object.values(this.getDocumentList).filter(
-        (item) =>
-          item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
-          item.description.toLowerCase().includes(this.inputData.toLowerCase())
-      );
+      return Object.values(this.getDocumentList)
+        .filter(
+          (item) =>
+            item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
+            item.description
+              .toLowerCase()
+              .includes(this.inputData.toLowerCase())
+        )
+        .filter((file) => {
+          if (this.userDetails && this.userDetails.type) {
+            if (this.userDetails.type === "student") {
+              return file.type === "public" || file.type === "student";
+            } else {
+              return true;
+            }
+          } else {
+            return file.type === "public";
+          }
+        });
     },
     userDetails() {
       return this.$store.getters.userDetails;
@@ -303,7 +355,17 @@ export default {
   margin-bottom: 15px;
 }
 .chip-style {
-  background-color: var(--primary-low-opacity) !important;
+  background-color: var(--primary) !important;
+  color: var(--light-text) !important;
   margin: 5px;
+}
+.chip-visibility-style {
+  background-color: var(--dark-text) !important;
+  color: var(--light-text) !important;
+  margin: 5px;
+}
+.save-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
 }
 </style>

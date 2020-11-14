@@ -10,17 +10,24 @@
         v-model="inputData"
       ></v-text-field>
 
-      <v-btn
-      v-if='getUserDetails'
-        x-small
-        fab
-        class="add-btn"
-        @click="dialogAddCourse.showDialog = !dialogAddCourse.showDialog"
-      >
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-      </v-btn>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">
+            <v-btn
+              v-if="getUserDetails"
+              x-small
+              fab
+              class="add-btn"
+              @click="dialogAddCourse.showDialog = !dialogAddCourse.showDialog"
+            >
+              <v-icon dark>
+                mdi-plus
+              </v-icon>
+            </v-btn>
+          </span>
+        </template>
+        <span>Add course</span>
+      </v-tooltip>
     </div>
 
     <div v-if="filteredItems.length > 0">
@@ -103,8 +110,7 @@ export default {
       description: "",
     },
     inputData: "",
-      typeUpload: "",
-
+    typeUpload: "",
   }),
   computed: {
     getCoursesList() {
