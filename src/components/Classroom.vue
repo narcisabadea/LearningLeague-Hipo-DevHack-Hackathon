@@ -42,6 +42,9 @@
                 <v-list-item-subtitle
                   v-html="item.description"
                 ></v-list-item-subtitle>
+                <div class="date-style">
+                  Created on {{ new Date(item.dateUpload).toLocaleString() }}
+                </div>
               </v-col>
               <v-col md="1" v-if="getUserDetails">
                 <router-link
@@ -148,6 +151,7 @@ export default {
           description: this.dialogAddClassroom.description,
           userId: this.getUserDetails.name,
           type: this.type,
+          dateUpload: Date.now(),
         })
         .then(() => {
           this.dialogAddClassroom.showDialog = false;
@@ -187,5 +191,10 @@ export default {
 .save-btn {
   background-color: var(--primary) !important;
   color: var(--light-text);
+}
+.date-style {
+  color: var(--light-text) !important;
+  font-size: 12px;
+  margin-top: 15px;
 }
 </style>
