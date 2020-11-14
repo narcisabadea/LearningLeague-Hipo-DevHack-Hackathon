@@ -77,7 +77,8 @@
                 {{ item.description }}
               </v-card-subtitle>
               <v-card-text>
-              <div v-if="item.userId">Uploaded by {{ usersData ? usersData[item.userId].name : '' }}</div><div v-if="item.dateUpload"> on {{ item.dateUpload }}</div>
+              <div v-if="item.userId">Uploaded by {{ getUserName(item.userId) }}</div>
+              <div v-if="item.dateUpload"> on {{ item.dateUpload }}</div>
               </v-card-text>
             </v-col>
             <v-spacer></v-spacer>
@@ -145,6 +146,9 @@ export default {
     uploadSuccess: function(file) {
       this.fileDetails = file;
       console.log(file);
+    },
+    getUserName(userId) {
+      return this.usersData ? this.usersData.filter(item => item.key === userId)[0].name : '';
     },
     uploadDocument() {
       const selectedFile = this.fileDetails;
