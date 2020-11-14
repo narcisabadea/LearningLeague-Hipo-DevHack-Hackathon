@@ -5,7 +5,7 @@ import Search from '../components/Search'
 import Classroom from '../components/Classroom'
 import Courses from '../components/Courses'
 import Tests from '../components/Tests'
-import Profile from '../components/Profile'
+import TestPage from '../components/TestPage'
 import CoursePage from '../components/CoursePage'
 import ClassroomPage from '../components/ClassroomPage'
 
@@ -44,9 +44,9 @@ export default new Router({
         component: Tests
       },
       {
-        path: '/profile',
-        name: 'Profile',
-        component: Profile
+        path: '/tests/:id',
+        name: 'TestPage',
+        component: TestPage
       },
     {
         path: '/',
