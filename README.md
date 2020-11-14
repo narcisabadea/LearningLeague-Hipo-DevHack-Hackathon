@@ -15,8 +15,8 @@ To run the project on your machine use npm run serve for a dev server. Navigate 
 * As a teacher the user will have access to all of the app content
 * As a student the user will have access only on what the teacher shares with him
 * On the homepage the user will have the following options: 
- 1. search or upload documents
- 2. chat with each other
+ 1. search for uploaded documents
+ 2. upload documents
  3. enter a classroom
  4. view courses documentation 
  5. take tests 
