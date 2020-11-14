@@ -10,48 +10,57 @@
         </div>
       </div>
       <div class="files">
-        <div class="button-add"></div>
-        <div class="files">
-                <vue-dropzone
-      v-if="upload"
-      :options="dropzoneOptions"
-      :useCustomSlot="true"
-      id="dropzone"
-      v-on:vdropzone-success="uploadSuccess"
-    >
-      <div class="dropzone-custom-content">
-        <h3 class="dropzone-custom-title">Drag and drop to upload content!</h3>
-        <div class="subtitle">
-          ...or click to select a file from your computer
+        <div class="button-add">
+          <v-btn text @click="upload = !upload">
+            <span class="mr-2">Upload</span>
+          </v-btn>
         </div>
-      </div>
-    </vue-dropzone>
+        <div class="files">
+          <vue-dropzone
+            v-if="upload"
+            :options="dropzoneOptions"
+            :useCustomSlot="true"
+            id="dropzone"
+            v-on:vdropzone-success="uploadSuccess"
+          >
+            <div class="dropzone-custom-content">
+              <h3 class="dropzone-custom-title">
+                Drag and drop to upload content!
+              </h3>
+              <div class="subtitle">
+                ...or click to select a file from your computer
+              </div>
+            </div>
+          </vue-dropzone>
 
-    <v-row v-if="upload">
-      <v-col cols="3">
-        <v-subheader>Add a description for your file</v-subheader>
-      </v-col>
-      <v-col cols="9">
-        <v-text-field
-          counter
-          maxlength="250"
-          v-model="fileDescription"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row v-if="upload">
-      <v-radio-group v-model="typeUpload">
-        <v-radio label="Public" value="public"></v-radio>
-        <v-radio
-          label="For other teachers and students"
-          value="student"
-        ></v-radio>
-        <v-radio label="Just for other teachers" value="professor"></v-radio>
-      </v-radio-group>
-    </v-row>
-    <v-row v-if="upload" class="btn-container">
-      <v-btn @click="uploadDocument">Save</v-btn>
-    </v-row>
+          <v-row v-if="upload">
+            <v-col cols="3">
+              <v-subheader>Add a description for your file</v-subheader>
+            </v-col>
+            <v-col cols="9">
+              <v-text-field
+                counter
+                maxlength="250"
+                v-model="fileDescription"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row v-if="upload">
+            <v-radio-group v-model="typeUpload">
+              <v-radio label="Public" value="public"></v-radio>
+              <v-radio
+                label="For other teachers and students"
+                value="student"
+              ></v-radio>
+              <v-radio
+                label="Just for other teachers"
+                value="professor"
+              ></v-radio>
+            </v-radio-group>
+          </v-row>
+          <v-row v-if="upload" class="btn-container">
+            <v-btn @click="uploadDocument">Save</v-btn>
+          </v-row>
           <div v-if="filteredItems.length > 0">
             <div
               v-for="(item, index) in filteredItems"
@@ -79,7 +88,7 @@
                       class="download-btn"
                       fab
                       x-small
-                      @click="downloadDoc(item, index)"
+                      @click="downloadDoc(item)"
                     >
                       <v-icon dark>
                         mdi-download
@@ -136,9 +145,7 @@ export default {
     },
     filteredItems() {
       return Object.values(this.getDocumentList).filter(
-        (item) =>
-          item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
-          item.description.toLowerCase().includes(this.inputData.toLowerCase())
+        (item) => this.classroomDetails.key === item.classroomKey
       );
     },
     userDetails() {
@@ -198,6 +205,7 @@ export default {
                   type: this.typeUpload,
                   downloadsProfessors: 0,
                   downloadsStudents: 0,
+                  classroomKey: this.classroomDetails.key,
                 });
               console.log("File available at", downloadURL);
             });
@@ -205,10 +213,10 @@ export default {
         }
       );
     },
-    downloadDoc(item, index) {
+    downloadDoc(item) {
       firebase
         .database()
-        .ref("uploads/" + index)
+        .ref("uploads/" + item.key)
         .update({
           downloads: item.downloads ? item.downloads + 1 : 1,
         });
@@ -216,7 +224,7 @@ export default {
         if (this.userDetails.type === "professor") {
           firebase
             .database()
-            .ref("uploads/" + index)
+            .ref("uploads/" + item.key)
             .update({
               downloadsProfessors: item.downloadsProfessors
                 ? item.downloadsProfessors + 1
@@ -226,7 +234,7 @@ export default {
         if (this.userDetails.type === "student") {
           firebase
             .database()
-            .ref("uploads/" + index)
+            .ref("uploads/" + item.key)
             .update({
               downloadsStudents: item.downloadsStudents
                 ? item.downloadsStudents + 1
@@ -246,5 +254,71 @@ export default {
   font-size: 2rem !important;
   padding-bottom: 5px;
   font-weight: bold;
+}
+.bar-container {
+  display: flex;
+  margin-bottom: 30px;
+}
+.dropzone-custom-content {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dropzone-custom-title {
+  margin-top: 0;
+  color: #00b782;
+}
+.subtitle {
+  color: #314b5f;
+}
+.video-chat {
+  display: flex;
+  flex-flow: row;
+}
+.video {
+  flex: 1 1 40%;
+}
+.chat {
+  flex: 1 1 40%;
+}
+.btn-container {
+  justify-content: center;
+}
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.title {
+  font-family: "dancingscript" !important;
+  font-size: 2rem !important;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+.upload-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
+}
+.download-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
+  margin-right: 10px;
+}
+.item-name {
+  color: var(--dark-text) !important;
+}
+.dropzone-custom-title {
+  color: var(--primary);
+}
+.chips-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.chip-style {
+  background-color: var(--primary-low-opacity) !important;
+  margin: 5px;
 }
 </style>

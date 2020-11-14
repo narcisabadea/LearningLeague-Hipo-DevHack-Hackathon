@@ -213,20 +213,18 @@ export default {
         }
       );
     },
-    downloadDoc(item, index) {
+    downloadDoc(item) {
       firebase
-            .database()
-            .ref("uploads/" + index)
-            .update({
-              downloads: item.downloads
-                ? item.downloads + 1
-                : 1,
-            });
+        .database()
+        .ref("uploads/" + item.key)
+        .update({
+          downloads: item.downloads ? item.downloads + 1 : 1,
+        });
       if (this.userDetails && this.userDetails.type) {
         if (this.userDetails.type === "professor") {
           firebase
             .database()
-            .ref("uploads/" + index)
+            .ref("uploads/" + item.key)
             .update({
               downloadsProfessors: item.downloadsProfessors
                 ? item.downloadsProfessors + 1
@@ -236,7 +234,7 @@ export default {
         if (this.userDetails.type === "student") {
           firebase
             .database()
-            .ref("uploads/" + index)
+            .ref("uploads/" + item.key)
             .update({
               downloadsStudents: item.downloadsStudents
                 ? item.downloadsStudents + 1
@@ -244,6 +242,7 @@ export default {
             });
         }
       }
+
       window.open(item.downloadLink, "_blank");
     },
   },
