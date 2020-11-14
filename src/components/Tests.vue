@@ -75,7 +75,7 @@ export default {
   margin: 5px;
   border-radius: 10px;
   padding: 15px;
-  cursor:pointer;
+  cursor: pointer;
 }
 .v-card:hover {
   box-shadow: 0px 2px 10px var(--primary-low-opacity);
