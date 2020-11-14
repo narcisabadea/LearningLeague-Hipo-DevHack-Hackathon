@@ -146,9 +146,6 @@ export default {
   display: flex;
   margin-bottom: 30px;
 }
-.list-items {
-  /* display: flex; */
-}
 .card-container {
   display: flex;
   justify-content: space-between;
