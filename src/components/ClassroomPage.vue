@@ -4,17 +4,47 @@
     <div class="content">
       <div class="video-chat">
         <div class="video">video</div>
-        <div class="chat">
-          <div>old messages</div>
-          <div class="new-comment">new</div>
-        </div>
+        <v-card class="chat">
+          <v-card-text class="old-comments">
+            <v-list
+              three-line
+              v-if="classroomDetails && classroomDetails.comments"
+            >
+              <template v-for="(item, index) in classroomDetails.comments">
+                <v-list-item-content :key="index" class="item-name">
+                  <v-row class="card-container">
+                    <v-col md="11">
+                      <v-list-item-subtitle
+                        class="user"
+                        v-html="item.userId"
+                      ></v-list-item-subtitle>
+                      <v-list-item-subtitle
+                        class="date"
+                        v-html="item.date"
+                      ></v-list-item-subtitle>
+                      <v-list-item-title
+                        v-html="item.comment"
+                      ></v-list-item-title>
+                    </v-col>
+                  </v-row>
+                  <v-divider></v-divider>
+                </v-list-item-content>
+              </template>
+            </v-list>
+          </v-card-text>
+          <v-card-text class="new-comment">
+            <v-text-field v-model="newComment" label="Your comment here">
+            </v-text-field>
+            <v-btn text @click="addComment()">
+              Add comment
+            </v-btn>
+          </v-card-text>
+        </v-card>
       </div>
       <div class="files">
-        <div class="button-add">
-          <v-btn text @click="upload = !upload">
+          <v-btn text @click="upload = !upload" class="button-add">
             <span class="mr-2">Upload</span>
           </v-btn>
-        </div>
         <div class="files">
           <vue-dropzone
             v-if="upload"
@@ -117,7 +147,6 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      classroomDetails: "",
       upload: false,
       fileDescription: "",
       fileDetails: "",
@@ -129,17 +158,18 @@ export default {
         addRemoveLinks: true,
         maxFiles: 1,
       },
+      newComment: "",
     };
   },
   components: {
     vueDropzone: vue2Dropzone,
   },
-  created() {
-    this.classroomDetails = Object.values(
-      this.$store.getters.classroomsData
-    ).filter((item) => item.key === this.id)[0];
-  },
   computed: {
+    classroomDetails() {
+      return Object.values(this.$store.getters.classroomsData).filter(
+        (item) => item.key === this.id
+      )[0];
+    },
     getDocumentList() {
       return this.$store.getters.uploadsData;
     },
@@ -156,6 +186,16 @@ export default {
     },
   },
   methods: {
+    addComment() {
+      firebase
+        .database()
+        .ref("classrooms/" + this.classroomDetails.key + "/comments")
+        .push({
+          comment: this.newComment,
+          dateAdded: new Date(),
+          userId: this.userDetails.name,
+        });
+    },
     uploadSuccess: function(file) {
       this.fileDetails = file;
       console.log(file);
@@ -254,6 +294,25 @@ export default {
   font-size: 2rem !important;
   padding-bottom: 5px;
   font-weight: bold;
+}
+.old-comments {
+  max-height: 350px;
+  overflow-y: scroll;
+  background-color: var(--primary-low-opacity);
+}
+.old-comments .v-list {
+  background-color: unset !important;
+}
+.old-comments .user {
+  color: var(--primary);
+}
+.button-add {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
+  margin: 20px 0;
+}
+.old-comments .date {
+  color: var(--primary-low-opacity);
 }
 .bar-container {
   display: flex;
