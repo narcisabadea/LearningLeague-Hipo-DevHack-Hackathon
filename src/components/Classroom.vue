@@ -10,17 +10,26 @@
         v-model="inputData"
       ></v-text-field>
 
-      <v-btn
-      v-if='getUserDetails'
-        x-small
-        fab
-        class="add-btn"
-        @click="dialogAddClassroom.showDialog = !dialogAddClassroom.showDialog"
-      >
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-      </v-btn>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">
+            <v-btn
+              v-if="getUserDetails"
+              x-small
+              fab
+              class="add-btn"
+              @click="
+                dialogAddClassroom.showDialog = !dialogAddClassroom.showDialog
+              "
+            >
+              <v-icon dark>
+                mdi-plus
+              </v-icon>
+            </v-btn>
+          </span>
+        </template>
+        <span>Add classroom</span>
+      </v-tooltip>
     </div>
 
     <div v-if="filteredItems.length > 0">
@@ -34,24 +43,20 @@
                   v-html="item.description"
                 ></v-list-item-subtitle>
               </v-col>
-              <v-col md="1" 
-                v-if='getUserDetails'
-              
-              >
+              <v-col md="1" v-if="getUserDetails">
                 <router-link
                   :to="{ name: 'ClassroomPage', params: { id: item.key } }"
                   style="cursor:pointer"
                 >
-                  <v-btn class="upload-btn" >
+                  <v-btn class="upload-btn">
                     Join
                   </v-btn>
                 </router-link>
               </v-col>
-              <v-col md="2" v-if='!getUserDetails'>
-                 <v-btn class="upload-btn" disabled>
+              <v-col md="2" v-if="!getUserDetails">
+                <v-btn class="upload-btn" disabled>
                   Login to join
-                 </v-btn>
-            
+                </v-btn>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -178,5 +183,9 @@ export default {
   font-size: 2rem !important;
   padding-bottom: 5px;
   font-weight: bold;
+}
+.save-btn {
+  background-color: var(--primary) !important;
+  color: var(--light-text);
 }
 </style>

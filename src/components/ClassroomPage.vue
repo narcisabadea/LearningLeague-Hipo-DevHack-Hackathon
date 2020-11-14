@@ -183,16 +183,23 @@
                   </v-col>
                   <v-spacer></v-spacer>
                   <v-col>
-                    <v-btn
-                      class="download-btn"
-                      fab
-                      x-small
-                      @click="downloadDoc(item)"
-                    >
-                      <v-icon dark>
-                        mdi-download
-                      </v-icon>
-                    </v-btn>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <span v-bind="attrs" v-on="on">
+                          <v-btn
+                            class="download-btn"
+                            fab
+                            x-small
+                            @click="downloadDoc(item)"
+                          >
+                            <v-icon dark>
+                              mdi-download
+                            </v-icon>
+                          </v-btn>
+                        </span>
+                      </template>
+                      <span>Download document</span>
+                    </v-tooltip>
                   </v-col>
                 </v-row>
               </v-card>
@@ -608,9 +615,9 @@ export default {
 .video {
   flex: 1 1 40%;
   padding-right: 10px;
-      align-self: center;
-    text-align: center;
-    justify-content: center;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
 }
 .chat {
   flex: 1 1 40%;
