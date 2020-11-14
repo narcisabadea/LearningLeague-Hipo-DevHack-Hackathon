@@ -139,6 +139,9 @@ export default {
 .v-app-bar .v-btn__content {
   color: var(--light-text) !important;
 }
+a {
+  text-decoration: none;
+}
 .v-application--wrap {
   color: var(--dark-text);
 }
