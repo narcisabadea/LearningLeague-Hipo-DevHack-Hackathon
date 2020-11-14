@@ -14,10 +14,6 @@
           mdi-cloud-upload
         </v-icon>
       </v-btn>
-
-      <v-btn text @click="upload = !upload">
-        <span class="mr-2">Upload</span>
-      </v-btn>
     </div>
 
     <vue-dropzone
@@ -70,28 +66,43 @@
         <v-card v-if="!upload">
           <v-row class="card-container">
             <v-col md="10">
-              <v-card-title class='item-name'>
+              <v-card-title class="item-name">
                 {{ item.name }}
               </v-card-title>
               <v-card-subtitle>
                 {{ item.description }}
               </v-card-subtitle>
               <v-card-text>
-              <div v-if="item.userId">Uploaded by {{ getUserName(item.userId) }}</div>
-              <div v-if="item.dateUpload"> on {{ item.dateUpload }}</div>
+                <div v-if="item.userId">
+                  Uploaded by {{ getUserName(item.userId) }}
+                </div>
+                <div v-if="item.dateUpload">on {{ item.dateUpload }}</div>
               </v-card-text>
             </v-col>
             <v-spacer></v-spacer>
             <v-col md="2">
-              <v-btn class="download-btn" fab x-small @click="downloadDoc(item, index)">
+              <v-btn
+                class="download-btn"
+                fab
+                x-small
+                @click="downloadDoc(item, index)"
+              >
                 <v-icon dark>
                   mdi-download
                 </v-icon>
               </v-btn>
-              <v-btn class="upload-btn" fab x-small>
-                <v-icon>mdi-format-list-bulleted-square</v-icon>
-              </v-btn>
             </v-col>
+            <v-row class="chips-container">
+              <v-chip class="chip-style">
+                Total downloads: {{ item.downloads || 0 }}
+              </v-chip>
+              <v-chip class="chip-style">
+                Teachers downloads: {{ item.downloadsProfessors || 0 }}
+              </v-chip>
+              <v-chip class="chip-style">
+                Students downloads: {{ item.downloadsStudents || 0 }}
+              </v-chip>
+            </v-row>
           </v-row>
         </v-card>
       </div>
@@ -120,6 +131,10 @@ export default {
       addRemoveLinks: true,
       maxFiles: 1,
     },
+    pieOptions: {
+      width: "100%",
+      height: 250,
+    },
   }),
   components: {
     vueDropzone: vue2Dropzone,
@@ -140,15 +155,16 @@ export default {
     },
     usersData() {
       return this.$store.getters.usersData;
-    }
+    },
   },
   methods: {
     uploadSuccess: function(file) {
       this.fileDetails = file;
-      console.log(file);
     },
     getUserName(userId) {
-      return this.usersData ? this.usersData.filter(item => item.key === userId)[0].name : '';
+      return this.usersData
+        ? this.usersData.filter((item) => item.key === userId)[0].name
+        : "";
     },
     uploadDocument() {
       const selectedFile = this.fileDetails;
@@ -220,7 +236,6 @@ export default {
             });
         }
       }
-
       window.open(item.downloadLink, "_blank");
     },
   },
@@ -270,9 +285,18 @@ export default {
   margin-right: 10px;
 }
 .item-name {
-    color: var(--dark-text) !important;
+  color: var(--dark-text) !important;
 }
 .dropzone-custom-title {
   color: var(--primary);
+}
+.chips-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.chip-style {
+  background-color: var(--primary-low-opacity) !important;
+  margin: 5px;
 }
 </style>

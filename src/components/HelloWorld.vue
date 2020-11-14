@@ -5,10 +5,6 @@
         <div class="title">Search / Upload</div>
         <div class="description">search or upload documents (private or public docs)</div>
       </div>
-      <div class="box-item" @click="redirect('chat')">
-        <div class="title">Chat</div>
-        <div class="description">chat with other people</div>
-      </div>
       <div class="box-item" @click="redirect('classroom')">
         <div class="title">Classrooms</div>
         <div class="description">talk about different topics with or without a teacher</div>
