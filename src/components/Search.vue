@@ -102,6 +102,15 @@
               <v-chip class="chip-style">
                 Students downloads: {{ item.downloadsStudents || 0 }}
               </v-chip>
+                <v-chip class="chip-visibility-style" v-if="item.type=== 'public'">
+                Visible to everyone
+              </v-chip>
+                <v-chip class="chip-visibility-style" v-if="item.type=== 'student'">
+                Visible to students and teachers
+              </v-chip>
+                <v-chip class="chip-visibility-style" v-if="item.type=== 'professor'">
+                Visible to teachers
+              </v-chip>
             </v-row>
           </v-row>
         </v-card>
@@ -148,7 +157,17 @@ export default {
         (item) =>
           item.name.toLowerCase().includes(this.inputData.toLowerCase()) ||
           item.description.toLowerCase().includes(this.inputData.toLowerCase())
-      );
+      ).filter(file=> {
+        if (this.userDetails && this.userDetails.type) {
+          if (this.userDetails.type === 'student') {
+            return file.type === 'public' || file.type === 'student'
+          } else {
+            return true
+          }
+        } else {
+          return file.type === 'public'
+        }
+      });
     },
     userDetails() {
       return this.$store.getters.userDetails;
@@ -303,7 +322,13 @@ export default {
   margin-bottom: 15px;
 }
 .chip-style {
-  background-color: var(--primary-low-opacity) !important;
+  background-color: var(--primary) !important;
+  color: var(--light-text) !important;
+  margin: 5px;
+}
+.chip-visibility-style{
+    background-color: var(--dark-text) !important;
+    color: var(--light-text) !important;
   margin: 5px;
 }
 </style>
