@@ -4,6 +4,8 @@ Education application created using Vue.js, Vuetify, Vuex, Firebase.
 
 ## Development
 
+The application is also live [HERE](https://devhacks2020-1c585.web.app/)
+
 This project was created using [Vue.js CLI](https://vuejs.org/) version 2.6.11 with [Vuetify](https://vuetifyjs.com/en/).
 Video and voice calling are made through [CometChat](https://www.cometchat.com/) and data is saved through [Firebase](https://firebase.google.com/docs).
 
