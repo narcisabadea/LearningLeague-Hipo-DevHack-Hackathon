@@ -111,7 +111,6 @@ export default {
           this.dialogAddCourse.showDialog = false;
         });
     },
-   
   },
 };
 </script>
