@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="title">Tests</div>
+    <div class="title-page">Tests</div>
     <div class="category-title">
       {{ getITCategory[0].category }}
     </div>
@@ -8,7 +8,7 @@
       <v-card v-for="(item, index) in getITCategory" :key="index">
         <div class="box-item" @click="redirect(item.key)">
           <div class="title">{{ item.name }}</div>
-          <div class="description">{{ item.description }}</div>
+          <div class="description">{{ getChars(item.description) }}</div>
         </div>
       </v-card>
     </div>
@@ -19,7 +19,7 @@
       <v-card v-for="(item, index) in getITSoftwareCategory" :key="index">
         <div class="box-item" @click="redirect(item.key)">
           <div class="title">{{ item.name }}</div>
-          <div class="description">{{ item.description }}</div>
+          <div class="description">{{ getChars(item.description) }}</div>
         </div>
       </v-card>
     </div>
@@ -49,16 +49,39 @@ export default {
   methods: {
     redirect(key) {
       router.push("/tests/" + key);
-    }
-  }
+    },
+    getChars(item) {
+      return item.slice(0, 250);
+    },
+  },
 };
 </script>
 
 <style scoped>
-.title {
+.title-page {
   font-family: "dancingscript" !important;
   font-size: 2rem !important;
   padding-bottom: 5px;
   font-weight: bold;
+  margin-bottom: 20px;
+}
+.title {
+  padding-bottom: 5px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.v-card {
+  flex: 0 0 33%;
+  margin: 5px;
+  border-radius: 10px;
+  padding: 15px;
+  cursor:pointer;
+}
+.v-card:hover {
+  box-shadow: 0px 2px 10px var(--primary-low-opacity);
+}
+.category-title {
+  margin: 10px 0;
+  font-size: 1.3rem;
 }
 </style>
