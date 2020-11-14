@@ -214,6 +214,14 @@ export default {
       );
     },
     downloadDoc(item, index) {
+      firebase
+            .database()
+            .ref("uploads/" + index)
+            .update({
+              downloads: item.downloads
+                ? item.downloads + 1
+                : 1,
+            });
       if (this.userDetails && this.userDetails.type) {
         if (this.userDetails.type === "professor") {
           firebase

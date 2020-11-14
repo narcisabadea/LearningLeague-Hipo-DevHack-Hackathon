@@ -23,7 +23,7 @@
     </div>
 
     <div v-if="filteredItems.length > 0">
-      <v-list three-line>
+      <v-list three-line class="list-items">
         <template v-for="(item, index) in filteredItems">
           <v-list-item-content :key="index" class="item-name">
             <v-row class="card-container">
@@ -38,8 +38,8 @@
                   :to="{ name: 'ClassroomPage', params: { id: item.key } }"
                   style="cursor:pointer"
                 >
-                  <v-btn class="upload-btn" fab x-small>
-                    <v-icon>mdi-format-list-bulleted-square</v-icon>
+                  <v-btn class="upload-btn" >
+                    Join
                   </v-btn>
                 </router-link>
               </v-col>
@@ -53,13 +53,16 @@
       No items found
     </div>
 
-        <v-dialog v-model="dialogAddClassroom.showDialog" max-width="40vw">
+    <v-dialog v-model="dialogAddClassroom.showDialog" max-width="40vw">
       <v-card elevation="2" shaped>
         <v-card-title class="title-dialog">
           Add classroom
         </v-card-title>
         <v-card-text>
-          <v-text-field v-model="dialogAddClassroom.name" label="Classroom name">
+          <v-text-field
+            v-model="dialogAddClassroom.name"
+            label="Classroom name"
+          >
           </v-text-field>
           <v-text-field
             v-model="dialogAddClassroom.description"
@@ -68,19 +71,22 @@
           </v-text-field>
         </v-card-text>
         <v-card-text>
-              <v-row>
-      <v-radio-group v-model="type">
-        <v-radio label="Public" value="public"></v-radio>
-        <v-radio
-          label="For other teachers and students"
-          value="student"
-        ></v-radio>
-        <v-radio label="Just for other teachers" value="professor"></v-radio>
-      </v-radio-group>
-    </v-row>
+          <v-row>
+            <v-radio-group v-model="type">
+              <v-radio label="Public" value="public"></v-radio>
+              <v-radio
+                label="For other teachers and students"
+                value="student"
+              ></v-radio>
+              <v-radio
+                label="Just for other teachers"
+                value="professor"
+              ></v-radio>
+            </v-radio-group>
+          </v-row>
         </v-card-text>
         <v-container grid-list-sm>
-          <v-btn type="submit" @click="classroomsData" class='save-btn'>
+          <v-btn type="submit" @click="addClassroom" class="save-btn">
             Save
           </v-btn>
         </v-container>
@@ -100,7 +106,7 @@ export default {
       name: "",
       description: "",
     },
-    type: ""
+    type: "",
   }),
   computed: {
     classroomsData() {
@@ -126,7 +132,7 @@ export default {
           name: this.dialogAddClassroom.name,
           description: this.dialogAddClassroom.description,
           userId: this.getUserDetails.name,
-          type: this.type
+          type: this.type,
         })
         .then(() => {
           this.dialogAddClassroom.showDialog = false;
@@ -140,14 +146,17 @@ export default {
   display: flex;
   margin-bottom: 30px;
 }
+.list-items {
+  /* display: flex; */
+}
 .card-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .item-name {
-    color: var(--dark-text) !important;
-    padding: 20px;
+  color: var(--dark-text) !important;
+  padding: 20px;
 }
 .upload-btn {
   background-color: var(--primary) !important;
@@ -155,6 +164,6 @@ export default {
 }
 .add-btn {
   background-color: var(--primary) !important;
-  color: var(--light-text)
+  color: var(--light-text);
 }
 </style>
