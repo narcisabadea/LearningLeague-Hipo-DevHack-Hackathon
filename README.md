@@ -27,4 +27,50 @@ To run the project on your machine use npm run serve for a dev server. Navigate 
 * Users cand take tests in order to verify their knowledges from different categories
 
 ## Screenshots
-To be continued...
+* Homepage
+
+![homepage](src/assets/1.png?raw=true "Homepage")
+
+* Login dialog
+
+![Login](src/assets/2.png?raw=true "Login")
+
+* Search through resources
+
+![Search_documents](src/assets/3.png?raw=true "Search documents")
+
+* Upload resource
+
+![Upload_resources](src/assets/4.png?raw=true "Upload resources")
+
+* Search through classrooms
+
+![Search_classroom](src/assets/5.png?raw=true "Search classroom")
+
+* Add classroom
+
+![Add_classroom](src/assets/6.png?raw=true "Add classroom")
+
+* Classroom details
+
+![Classroom_details](src/assets/7.png?raw=true "Classroom details")
+
+* Search through courses
+
+![Courses_details](src/assets/8.png?raw=true "Courses details")
+
+* Add course
+
+![Add_course](src/assets/9.png?raw=true "Add courses")
+
+* Test list
+
+![Test_list](src/assets/10.png?raw=true "Test list")
+
+* Test details
+
+![Test_details](src/assets/11.png?raw=true "Test details")
+
+* Test results
+
+![Test_results](src/assets/12.png?raw=true "Test results")
