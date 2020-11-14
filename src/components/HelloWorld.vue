@@ -75,9 +75,14 @@ export default {
 .box-item:hover {
   box-shadow: 0px 2px 10px var(--primary-low-opacity);
 }
+  .box-item:hover .description {
+visibility: unset;
+  }
+
 .description {
   text-align: center;
   color: var(--light-text);
+  visibility: hidden;
 }
 .title {
   text-align: -webkit-center;
@@ -85,5 +90,6 @@ export default {
   font-family: "dancingscript" !important;
   font-weight: bold;
   font-size: 2rem !important;
+  color: var(--light-text);
 }
 </style>

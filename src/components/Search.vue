@@ -9,7 +9,7 @@
         v-model="inputData"
       ></v-text-field>
 
-      <v-btn class="upload-btn" fab x-small @click="upload = !upload">
+      <v-btn v-if="userDetails" class="upload-btn" fab x-small @click="upload = !upload">
         <v-icon dark>
           mdi-cloud-upload
         </v-icon>
@@ -80,7 +80,7 @@
               </v-card-text>
             </v-col>
             <v-spacer></v-spacer>
-            <v-col md="2">
+            <v-col>
               <v-btn
                 class="download-btn"
                 fab

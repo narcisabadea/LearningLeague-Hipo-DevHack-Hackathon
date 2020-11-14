@@ -11,6 +11,7 @@
       ></v-text-field>
 
       <v-btn
+      v-if='getUserDetails'
         x-small
         fab
         class="add-btn"
@@ -27,13 +28,16 @@
         <template v-for="(item, index) in filteredItems">
           <v-list-item-content :key="index" class="item-name">
             <v-row class="card-container">
-              <v-col md="11">
+              <v-col md="10">
                 <v-list-item-title v-html="item.name"></v-list-item-title>
                 <v-list-item-subtitle
                   v-html="item.description"
                 ></v-list-item-subtitle>
               </v-col>
-              <v-col md="1">
+              <v-col md="1" 
+                v-if='getUserDetails'
+              
+              >
                 <router-link
                   :to="{ name: 'ClassroomPage', params: { id: item.key } }"
                   style="cursor:pointer"
@@ -42,6 +46,12 @@
                     Join
                   </v-btn>
                 </router-link>
+              </v-col>
+              <v-col md="2" v-if='!getUserDetails'>
+                 <v-btn class="upload-btn" disabled>
+                  Login to join
+                 </v-btn>
+            
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -162,5 +172,11 @@ export default {
 .add-btn {
   background-color: var(--primary) !important;
   color: var(--light-text);
+}
+.title {
+  font-family: "dancingscript" !important;
+  font-size: 2rem !important;
+  padding-bottom: 5px;
+  font-weight: bold;
 }
 </style>

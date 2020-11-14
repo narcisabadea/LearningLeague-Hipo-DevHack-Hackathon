@@ -17,7 +17,7 @@
         <v-btn
           class="add-btn"
           @click="showForm = !showForm"
-          v-if="getUserDetails.name === getCourseDetails[0].userId"
+          v-if="getUserDetails && getUserDetails.name === getCourseDetails[0].userId"
           >Add chapter</v-btn
         >
       </v-row>

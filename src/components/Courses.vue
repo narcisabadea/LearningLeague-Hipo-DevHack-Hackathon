@@ -11,6 +11,7 @@
       ></v-text-field>
 
       <v-btn
+      v-if='getUserDetails'
         x-small
         fab
         class="add-btn"
