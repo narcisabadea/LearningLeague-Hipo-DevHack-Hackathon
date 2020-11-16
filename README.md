@@ -1,4 +1,4 @@
-# DevHacks2020 App
+# LearningLeague App for DevHacks2020
 
 Education application created using Vue.js, Vuetify, Vuex, Firebase.
 
