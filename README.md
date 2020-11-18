@@ -55,7 +55,7 @@ To run the project on your machine use npm run serve for a dev server. Navigate 
 
 * Classroom details
 
-![Classroom_details](src/assets/7.png?raw=true "Classroom details")
+![Classroom_details](src/assets/7v2.png?raw=true "Classroom details")
 
 * Search through courses
 
